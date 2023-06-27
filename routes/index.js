@@ -1,26 +1,40 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
+const Trip = require("../models/trips");
+const Ticket = require("../models/tickets")
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
-
-const newTrip = new Trip ({ departure: req.body.departure, arrival: req.body.arrival, date: req.body.date});
 
 //route pour aller chercher les information du client
 
-router.post('/',(req,res) => {
-  req.body.departure, req.body.arrival, req.body.date === 
-  res.json({tripsList: Trips})
+router.get("/:departure/:arrival/:date", (req, res) => {
+  const newTrip = { departure: req.params.departure, arrival: req.params.arrival };
+  //recuperer les infos de la db
+  Trip.find(newTrip).then((data) => {
+    console.log(data);
+    //verifier que les champs sont remplis
+    if (data.length > 0) {
+      res.json({ result: true, trips: data });
+    } else {
+      res.json({ result: false });
+    }
+  });
 });
 
-
-
 //route pour creer la base de donnée utilisateur et enregistrer les billets
-router.post('/')
-
-
-
+router.post("/", (req, res) => {
+  const newBillet = new Ticket({
+    user: req.body.user,
+    trip: req.body.trip,
+    paid: false
+    });
+    newBillet.save().then(() => {
+      console.log({return: True});
+    });
+}
+);
 
 module.exports = router;
