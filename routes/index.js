@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const Trip = require("../models/trips");
-const Ticket = require("../models/tickets")
+const Ticket = require("../models/tickets");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -26,15 +26,18 @@ router.get("/:departure/:arrival/:date", (req, res) => {
 
 //route pour creer la base de donnée utilisateur et enregistrer les billets
 router.post("/", (req, res) => {
-  const newBillet = new Ticket({
-    user: req.body.user,
-    trip: req.body.trip,
-    paid: false
+  const user = req.body.user;
+  const trip = req.body.trip;
+  if (user && trip) {
+    const newBillet = new Ticket({
+      user: req.body.user,
+      trip: req.body.trip,
+      paid: false,
     });
     newBillet.save().then(() => {
-      res.json({return: true});
+      res.json({ result: true });
     });
-}
-);
+  } else {res.json({result: false})};
+});
 
 module.exports = router;
