@@ -32,7 +32,7 @@ router.post("/", (req, res) => {
     paid: false
     });
     newBillet.save().then(() => {
-      console.log({return: True});
+      res.json({return: true});
     });
 }
 );
