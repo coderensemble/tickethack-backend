@@ -3,10 +3,6 @@ var router = express.Router();
 const Trip = require("../models/trips");
 const Ticket = require("../models/tickets");
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
-});
 
 //route pour aller chercher les information du client
 
