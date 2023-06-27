@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ticketSchema = mongoose.Schema({
-	user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+	user: String,
 	trip: { type: mongoose.Schema.Types.ObjectId, ref: 'trips' },
 	paid: Boolean,
 });
