@@ -7,10 +7,20 @@ const Ticket = require("../models/tickets");
 //route pour aller chercher les information du client
 
 router.get("/:departure/:arrival/:date", (req, res) => {
-  const newTrip = { departure: req.params.departure, arrival: req.params.arrival };
+  const dateInf = new Date(req.params.date);
+  const dateSup = new Date(dateInf);
+  dateSup.setDate(dateSup.getDate() + 1);
+
+  const newTrip = {
+    departure: req.params.departure,
+    arrival: req.params.arrival,
+    date: {
+      $gte: dateInf,
+      $lt: dateSup,
+    },
+  };
   //recuperer les infos de la db
   Trip.find(newTrip).then((data) => {
-    console.log(data);
     //verifier que les champs sont remplis
     if (data.length > 0) {
       res.json({ result: true, trips: data });
