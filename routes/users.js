@@ -5,14 +5,14 @@ const Ticket = require('../models/tickets');
 /* GET - Panier du user */
 router.get('/cart/:user', async (req, res) => {
   const { user } = req.params;
-  const tickets = await Ticket.find({ user, paid: false });
+  const tickets = await Ticket.find({ user, paid: false }).populate('trip');
   return tickets.length > 0 ? res.json({ result: true, tickets }) : res.json({ result: false });
 });
 
 /* GET - Commandes validées du user */
 router.get('/bookings/:user', async (req, res) => {
   const { user } = req.params;
-  const tickets = await Ticket.find({ user, paid: true });
+  const tickets = await Ticket.find({ user, paid: true }).populate('trip');
   return tickets.length > 0 ? res.json({ result: true, tickets }) : res.json({ result: false });
 });
 
